@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+         <!-- parent pom -->
+         <parent>
+             <artifactId>robot-worlds</artifactId>
+             <groupId>za.co.wethinkcode</groupId>
+             <version>0.0.0</version>
+         </parent>
+         <modelVersion>4.0.0</modelVersion>
+
+         <!-- robot-worlds-server info -->
+         <groupId>za.co.wethinkcode</groupId>
+         <artifactId>robot-worlds-server</artifactId>
+         <version>0.1.1</version>
+         <packaging>jar</packaging>
+
+         <properties>
+             <gson.version>2.8.6</gson.version>
+             <picocli.version>4.6.1</picocli.version>
+         </properties>
+
+         <dependencies>
+
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>info.picocli</groupId>
+                <artifactId>picocli</artifactId>
+                <version>4.6.1</version>
+            </dependency>
+
+             <!-- https://mvnrepository.com/artifact/org.json/json -->
+             <dependency>
+                 <groupId>org.json</groupId>
+                 <artifactId>json</artifactId>
+                 <version>20210307</version>
+             </dependency>
+
+
+         </dependencies>
+
+        <profiles>
+         <profile>
+            <id>add-minor</id>
+            <activation>
+                <property>
+                    <name>addMinor</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <version>2.8.1</version>
+
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>set</goal>
+                                </goals>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <newVersion>${parsedVersion.majorVersion}.${parsedVersion.nextMinorVersion}.0</newVersion>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Sets Patch Release -->
+        <profile>
+            <id>add-patch</id>
+            <activation>
+                <property>
+                    <name>addPatch</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <version>2.8.1</version>
+
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>set</goal>
+                                </goals>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <newVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.nextIncrementalVersion}</newVersion>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Sets SNAPSHOT on release to indicate active development during iterations -->
+    </profiles>
+
+         <build>
+             <plugins>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.0.0-M4</version>
+                    <configuration>
+                      <tagBase>https://svn.mycompany.com/repos/myapplication/releases</tagBase>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <finalName>${project.artifactId}-${project.version}</finalName>
+                                    <archive>
+                                        <manifest>
+                                            <mainClass>
+                                                za.co.wethinkcode.Server.Server.RunServer
+                                            </mainClass>
+                                        </manifest>
+                                    </archive>
+                                    <descriptorRefs>jar-with-dependencies</descriptorRefs>
+                                    <appendAssemblyId>false</appendAssemblyId>
+                                </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <mainClass>za.co.wethinkcode.Server.Server.RunServer</mainClass>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.2.0</version>
+                    <executions>
+                        <execution>
+                            <id>parse-version</id>
+                            <goals>
+                                <goal>parse-version</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>attach-artifacts</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>attach-artifact</goal>
+                            </goals>
+                            <configuration>
+                                <artifacts>
+                                    <artifact>
+                                        <file>config/WorldSpecs.json</file>
+                                        <type>json</type>
+                                    </artifact>
+                                </artifacts>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+             </plugins>
+         </build>
+
+</project>         

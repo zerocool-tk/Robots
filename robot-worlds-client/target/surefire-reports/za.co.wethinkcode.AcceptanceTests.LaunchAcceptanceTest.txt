@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: za.co.wethinkcode.AcceptanceTests.LaunchAcceptanceTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.343 s <<< FAILURE! - in za.co.wethinkcode.AcceptanceTests.LaunchAcceptanceTest
+LaunchRobotsIntoAWorldWithAnObstacle2x2  Time elapsed: 0.072 s  <<< ERROR!
+java.lang.RuntimeException: Error Conecting to Robot Worlds server.
+	at za.co.wethinkcode.AcceptanceTests.LaunchAcceptanceTest.connectToServer(LaunchAcceptanceTest.java:32)
+Caused by: java.net.ConnectException: Connection refused
+	at za.co.wethinkcode.AcceptanceTests.LaunchAcceptanceTest.connectToServer(LaunchAcceptanceTest.java:32)
+
+worldWithAnObstacleIsFull2x2  Time elapsed: 0.005 s  <<< ERROR!
+java.lang.RuntimeException: Error Conecting to Robot Worlds server.
+	at za.co.wethinkcode.AcceptanceTests.LaunchAcceptanceTest.connectToServer(LaunchAcceptanceTest.java:32)
+Caused by: java.net.ConnectException: Connection refused
+	at za.co.wethinkcode.AcceptanceTests.LaunchAcceptanceTest.connectToServer(LaunchAcceptanceTest.java:32)
+

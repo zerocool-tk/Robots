@@ -1,0 +1,10 @@
+{
+  "height": 1,
+  "width": 1,
+  "maxShield": 5,
+  "reload": 5,
+  "mine": 6,
+  "repair": 6,
+  "visibility": 12,
+  "port": 5000
+}
